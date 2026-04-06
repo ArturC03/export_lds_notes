@@ -1,5 +1,4 @@
 # LDS Notes Exporter 📜🚀
-
 A powerful, private, and 100% client-side tool to export your notes and journals from the official Church website (ChurchofJesusChrist.org) into modern, open formats.
 
 ## ✨ Features
@@ -12,11 +11,6 @@ A powerful, private, and 100% client-side tool to export your notes and journals
   - 📊 **Clean CSV (.csv)**: Organized table for Excel or Google Sheets.
   - 💻 **Clean JSON (.json)**: Clean, structured data for integrations.
   - 📄 **Plain Text (.txt)**: Simple and universal.
-- **Modern UX**: 
-  - Minimalist interface with a "Monochrome" design.
-  - **Drag & Drop**: Drag and drop files directly into the upload area.
-  - **Elegant Notifications**: Toast notification system for alerts and success messages.
-  - **Real-time Statistics**: View a summary of your import (Total notes, journals, notebooks).
 
 ## 🚀 How to Use
 
