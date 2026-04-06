@@ -40,4 +40,4 @@ O projeto é 100% *client-side* (sem backend). A estrutura atual é modular:
 - `/styles/`: CSS modular (base, layout, componentes).
 
 ## 📄 Licença
-Distribuído sob a Licença MIT.
+GNU Affero General Public License v3.0
