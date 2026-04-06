@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>LDS Notes Exporter</title>
+        <meta name="description" content="Export LDS notes to Markdown, Org Mode, HTML, and more. Fast, private, and 100% client-side.">
+        
+        <!-- Open Graph -->
+        <meta property="og:title" content="LDS Notes Exporter">
+        <meta property="og:description" content="Export your LDS notes to Markdown, Org Mode, and other formats instantly and privately.">
+        <meta property="og:type" content="website">
+
+        <!-- Favicon -->
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+
+        <!-- Preload CDNs -->
+        <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js" as="script">
+        <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" as="script">
+        <link rel="preload" href="https://unpkg.com/turndown/dist/turndown.js" as="script">
+
+		<link rel="stylesheet" href="styles/main.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+		<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+        
+        <!-- Order is important for global scripts -->
+		<script src="js/utils/noteNormalizer.js"></script>
+		<script src="js/utils/fileUtils.js"></script>
+		<script src="js/exporters/markdownExporter.js"></script>
+		<script src="js/exporters/textExporter.js"></script>
+		<script src="js/exporters/orgExporter.js"></script>
+		<script src="js/exporters/jsonExporter.js"></script>
+		<script src="js/exporters/htmlExporter.js"></script>
+		<script src="js/exporters/csvExporter.js"></script>
+		<script src="js/parsers/csvParser.js"></script>
+		<script src="js/parsers/jsonParser.js"></script>
+		<script src="js/services/zipService.js"></script>
+		<script src="js/components/WizardNavigator.js"></script>
+		<script src="js/components/NotePreviewer.js"></script>
+		<script src="js/components/ExportController.js"></script>
+		<script src="js/components/Toast.js"></script>
+		<script src="js/main.js"></script>
+	</head>
+	<body>
+		<main class="container">
+            <header>
+                <h1>LDS Notes Exporter</h1>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="steps-labels">
+                        <span class="active">Activate</span>
+                        <span>Download</span>
+                        <span>Upload</span>
+                        <span>Preview</span>
+                        <span>Export</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- STEP 1: ACTIVATE -->
+            <div id="step1" class="wizard-step">
+                <h2>1. Activate your session</h2>
+                <p class="description">Open the official page first to ensure the service is active.</p>
+                <div style="margin: 1.5rem 0; text-align: center;">
+                    <a href="https://www.churchofjesuschrist.org/notes" target="_blank" class="btn-primary" style="display: inline-block; text-decoration: none;">
+                        Sign In / Open Notes
+                    </a>
+                </div>
+                <div class="actions" style="justify-content: flex-end;">
+                    <button class="btn-primary" onclick="goToStep(2)">Session Active →</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: DOWNLOAD -->
+            <div id="step2" class="wizard-step hidden">
+                <h2>2. Download your data</h2>
+                <p class="description">Choose the format you prefer from the Church's website.</p>
+                <div class="options-list">
+                    <div class="option-item">
+                        <div class="option-info">
+                            <h3>Rich JSON</h3>
+                            <p>Best formatting and colors.</p>
+                        </div>
+                        <a href="https://www.churchofjesuschrist.org/notes/api/v3/annotationsWithMeta?setId=all&numberToReturn=10000" 
+                           target="_blank" class="btn-outline">Open</a>
+                    </div>
+                    <div class="option-item">
+                        <div class="option-info">
+                            <h3>Simple CSV</h3>
+                            <p>Immediate download.</p>
+                        </div>
+                        <a href="https://www.churchofjesuschrist.org/notes/api/v3/annotations/export/csv?highlightsWithNotesOnly=false" 
+                           class="btn-outline">Download</a>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="btn-text" onclick="goToStep(1)">← Back</button>
+                    <button class="btn-primary" onclick="goToStep(3)">I have the file →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: UPLOAD -->
+            <div id="step3" class="wizard-step hidden">
+                <h2>3. Upload your file</h2>
+                <p class="description">Select the file you just downloaded.</p>
+                <div class="upload-area">
+                    <input type="file" id="csvInput" accept=".csv,.json" hidden />
+                    <label for="csvInput" class="upload-label">
+                        Click here or drag a file to select
+                        <span id="fileNameDisplay">No file selected</span>
+                    </label>
+                </div>
+                <div class="actions">
+                    <button class="btn-text" onclick="goToStep(2)">← Back</button>
+                    <button id="processBtn" class="btn-primary" disabled>View Notes →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: PREVIEW -->
+            <div id="step4" class="wizard-step hidden">
+                <h2 id="previewHeader">4. Preview your notes</h2>
+                <p id="previewDesc" class="description">Select a note to view its content.</p>
+                
+                <div id="statsSummary" class="stats-summary hidden"></div>
+
+                <div class="search-container">
+                    <input type="text" id="noteSearch" placeholder="Search notes by title or content..." class="search-input">
+                </div>
+
+                <div class="preview-container">
+                    <!-- List View -->
+                    <div id="previewListView">
+                        <ul id="previewList" class="preview-list"></ul>
+                    </div>
+                    <!-- Detail View (Rich HTML) -->
+                    <div id="previewDetailView" class="hidden">
+                        <div class="detail-header">
+                            <button id="backToListBtn" class="btn-text small">← Back to list</button>
+                        </div>
+                        <div id="richNotePreview" class="note-content-preview">
+                            <!-- Structured HTML will be injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="format-selection">
+                    <h3>Select Export Format</h3>
+                    <div class="format-grid" id="formatGrid">
+                        <div class="format-card active" data-value="md">
+                            <span class="format-ext">.md</span>
+                            <div class="format-info">
+                                <span class="format-name">Markdown</span>
+                                <span class="format-desc">Obsidian, Logseq</span>
+                            </div>
+                        </div>
+                        <div class="format-card" data-value="txt">
+                            <span class="format-ext">.txt</span>
+                            <div class="format-info">
+                                <span class="format-name">Plain Text</span>
+                                <span class="format-desc">Universal</span>
+                            </div>
+                        </div>
+                        <div class="format-card" data-value="org">
+                            <span class="format-ext">.org</span>
+                            <div class="format-info">
+                                <span class="format-name">Org Mode</span>
+                                <span class="format-desc">Emacs</span>
+                            </div>
+                        </div>
+                        <div class="format-card" data-value="json">
+                            <span class="format-ext">.json</span>
+                            <div class="format-info">
+                                <span class="format-name">Clean JSON</span>
+                                <span class="format-desc">For Devs</span>
+                            </div>
+                        </div>
+                        <div class="format-card" data-value="html">
+                            <span class="format-ext">.html</span>
+                            <div class="format-info">
+                                <span class="format-name">Rich HTML</span>
+                                <span class="format-desc">Apple/Samsung Notes</span>
+                            </div>
+                        </div>
+                        <div class="format-card" data-value="csv">
+                            <span class="format-ext">.csv</span>
+                            <div class="format-info">
+                                <span class="format-name">Clean CSV</span>
+                                <span class="format-desc">Excel/Sheets</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="exportFormat" value="md">
+                </div>
+
+                <div class="actions">
+                    <button class="btn-text" onclick="goToStep(3)">← Back to Upload</button>
+                    <button id="convertBtn" class="btn-primary">Download ZIP</button>
+                </div>
+            </div>
+
+            <!-- STEP 5: SUCCESS -->
+            <div id="step5" class="wizard-step hidden">
+                <div class="success-content">
+                    <h2>Complete</h2>
+                    <p id="status" class="success-msg"></p>
+                    <p class="description">Your notes have been exported successfully.</p>
+                    <div class="actions" style="justify-content: center;">
+                        <button class="btn-primary" onclick="goToStep(1)">Start Over</button>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <p>Independent tool for LDS notes export.</p>
+            </footer>
+        </main>
+	</body>
+</html>

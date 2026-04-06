@@ -1,0 +1,32 @@
+.container {
+    width: 100%;
+    max-width: 550px;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    margin: 0 auto;
+}
+
+header { margin-bottom: 2rem; text-align: center; }
+
+footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-soft);
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.wizard-step { animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+.hidden { display: none !important; }
+
+.actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; gap: 1rem; }
+
+.progress-container { margin-top: 1rem; background: var(--border-soft); height: 4px; border-radius: 10px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--primary); width: var(--progress); transition: width 0.5s; }
+
+.steps-labels { display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; }
+.steps-labels span.active { color: var(--primary); font-weight: 700; }
