@@ -1,43 +1,47 @@
 # LDS Notes Exporter 📜🚀
 
-Uma ferramenta poderosa, privada e 100% client-side para exportar as tuas notas e diários do site oficial da Igreja (ChurchofJesusChrist.org) para formatos modernos e abertos.
+A powerful, private, and 100% client-side tool to export your notes and journals from the official Church website (ChurchofJesusChrist.org) into modern, open formats.
 
-## ✨ Funcionalidades
+## ✨ Features
 
-- **Privacidade Total**: O processamento é feito inteiramente no teu browser. Os teus dados nunca saem do teu computador.
-- **Formatos de Exportação Flexíveis**:
-  - 📝 **Markdown (.md)**: Perfeito para Obsidian, Logseq e Notion.
-  - 📖 **Emacs Org Mode (.org)**: Estruturado para Emacs.
-  - 🌐 **Rich HTML (.html)**: Preserva toda a formatação; ideal para Apple/Samsung Notes.
-  - 📊 **Clean CSV (.csv)**: Tabela organizada para Excel ou Google Sheets.
-  - 💻 **Clean JSON (.json)**: Dados estruturados e limpos para integrações.
-  - 📄 **Plain Text (.txt)**: Simples e universal.
-- **UX Moderna**: 
-  - Interface minimalista com design "Monochrome".
-  - **Drag & Drop**: Arrastar e largar ficheiros diretamente na área de upload.
-  - **Notificações elegantes**: Sistema de *Toasts* para avisos e sucesso.
-  - **Estatísticas em tempo real**: Visualiza o resumo do que importaste (Total de notas, diários, cadernos).
+- **Total Privacy**: All processing is done entirely in your browser. Your data never leaves your computer.
+- **Flexible Export Formats**:
+  - 📝 **Markdown (.md)**: Perfect for Obsidian, Logseq, and Notion.
+  - 📖 **Emacs Org Mode (.org)**: Structured for Emacs.
+  - 🌐 **Rich HTML (.html)**: Preserves all formatting; ideal for Apple/Samsung Notes.
+  - 📊 **Clean CSV (.csv)**: Organized table for Excel or Google Sheets.
+  - 💻 **Clean JSON (.json)**: Clean, structured data for integrations.
+  - 📄 **Plain Text (.txt)**: Simple and universal.
+- **Modern UX**: 
+  - Minimalist interface with a "Monochrome" design.
+  - **Drag & Drop**: Drag and drop files directly into the upload area.
+  - **Elegant Notifications**: Toast notification system for alerts and success messages.
+  - **Real-time Statistics**: View a summary of your import (Total notes, journals, notebooks).
 
-## 🚀 Como Usar
+## 🚀 How to Use
 
-1. **Descarrega ou Clona**: Obtém o código deste repositório.
-2. **Abre a App**: Dá um duplo clique no ficheiro `index.html` (não requer servidor).
-3. **Segue o Assistente**:
-   - **Ativação**: Abre a página oficial das notas da Igreja.
-   - **Download**: Descarrega os teus dados da Igreja.
-   - **Upload**: Arraste o ficheiro (JSON ou CSV) para a área indicada.
-   - **Antevisão**: Explora as tuas notas, usa a pesquisa e vê as estatísticas.
-   - **Exportar**: Escolhe o formato visualmente e descarrega o ZIP.
+1. **Download or Clone**: Get the code from this repository.
+2. **Open the App**: Double-click the `index.html` file (no server required).
+3. **Follow the Wizard**:
+   - **Activation**: Open the official Church notes page.
+   - **Download**: Download your data from the Church website.
+   - **Upload**: Drag the file (JSON or CSV) to the designated area.
+   - **Preview**: Explore your notes, use the search feature, and view statistics.
+   - **Export**: Visually choose your format and download the ZIP.
 
-## 🛠️ Arquitetura Técnica
+## 🛠️ Technical Architecture
 
-O projeto é 100% *client-side* (sem backend). A estrutura atual é modular:
-- `/js/components/`: Controladores da Interface (Wizard, Preview, Export).
-- `/js/exporters/`: Módulos de conversão de dados.
-- `/js/parsers/`: Lógica de leitura de dados de entrada.
-- `/js/services/`: Manipulação de ZIPs.
-- `/js/utils/`: Normalização de dados e ajudantes.
-- `/styles/`: CSS modular (base, layout, componentes).
+The project is 100% client-side (no backend). The current structure is modular:
+- `/js/components/`: UI Controllers (Wizard, Preview, Export).
+- `/js/exporters/`: Data conversion modules.
+- `/js/parsers/`: Input data parsing logic.
+- `/js/services/`: ZIP file manipulation.
+- `/js/utils/`: Data normalization and helpers.
+- `/styles/`: Modular CSS (base, layout, components).
 
-## 📄 Licença
+## 🙏 Acknowledgments
+
+I would like to express my sincere gratitude to the [gospel-library-export](https://github.com/AverageHelper/gospel-library-export) repository. It was through this project that I was able to make this tool a reality. It helped me understand the existing methods and how to handle formatting exports via the Church's API.
+
+## 📄 License
 GNU Affero General Public License v3.0
