@@ -91,6 +91,47 @@
 .option-info h3 { font-size: 0.85rem; font-weight: 600; color: var(--text); margin: 0; }
 .option-info p { font-size: 0.75rem; color: var(--text-muted); margin: 0.2rem 0 0 0; }
 
+.tip-box {
+	background: #fffbeb;
+	border: 1px solid #fef3c7;
+	padding: 1.25rem;
+	margin: 1.5rem 0;
+	border-radius: var(--radius-lg);
+	font-size: 0.825rem;
+	line-height: 1.6;
+	color: #92400e;
+	display: flex;
+	gap: 0.85rem;
+	align-items: flex-start;
+}
+
+.tip-box strong {
+	color: #b45309;
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 0.7rem;
+	letter-spacing: 0.05em;
+	display: block;
+	margin-bottom: 0.25rem;
+}
+
+.tip-content {
+	flex: 1;
+}
+
+kbd {
+	background: #ffffff;
+	border: 1px solid #d1d5db;
+	border-bottom: 2px solid #9ca3af;
+	border-radius: 4px;
+	padding: 1px 5px;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	font-size: 0.725rem;
+	color: #374151;
+	font-weight: 600;
+	margin: 0 1px;
+}
+
 /* Format Selection */
 .format-selection h3 {
 	font-size: 0.68rem;
@@ -255,6 +296,20 @@
 	margin-right: 0.4rem;
 	color: var(--text-muted);
 	letter-spacing: 0.03em;
+}
+
+.badge-recommended {
+	font-size: 0.65rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	background: #dcfce7;
+	color: #15803d;
+	padding: 0.15rem 0.4rem;
+	border-radius: 4px;
+	letter-spacing: 0.05em;
+	display: inline-block;
+	margin-left: 0.5rem;
+	vertical-align: middle;
 }
 .preview-rich-content {
 	margin-top: 1rem;
